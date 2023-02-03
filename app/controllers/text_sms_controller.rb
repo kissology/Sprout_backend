@@ -1,0 +1,2 @@
+class TextSmsController < ApplicationController
+end
