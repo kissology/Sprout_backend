@@ -1,15 +1,15 @@
 class UsersController < ApplicationController
 
-    def index
-        render json: User.all, except [:created_at, :updated_at], status: :ok
-    end
+def index
+    render json: User.all, except [:created_at, :updated_at], status: :ok
+end
 
-    def show 
-        user = User.find_by(id: [params[:id]])
-        if user
-            render json: user, except: [created_at, updated_at]
-            include: [:plants => {except: [:created_at, updated_at]}], status: :ok
-       else
+def show 
+    user = User.find_by(id: [params[:id]])
+    if user
+        render json: user, except: [created_at, updated_at]
+        include: [:plants => {except: [:created_at, updated_at]}], status: :ok
+    else
         render json: {errors: ['User not found']}, status: 404
     end
 end
