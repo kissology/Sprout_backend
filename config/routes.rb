@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :gardens
   resources :reminders
   resources :messages
   resources :users

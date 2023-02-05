@@ -10,21 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_03_170807) do
+ActiveRecord::Schema.define(version: 2023_02_05_165321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cares", force: :cascade do |t|
-    t.string "variety"
+  create_table "gardens", force: :cascade do |t|
+    t.bigint "plant_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "messages", force: :cascade do |t|
-    t.string "sms"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.index ["plant_id"], name: "index_gardens_on_plant_id"
+    t.index ["user_id"], name: "index_gardens_on_user_id"
   end
 
   create_table "plants", force: :cascade do |t|
@@ -66,6 +63,8 @@ ActiveRecord::Schema.define(version: 2023_02_03_170807) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "gardens", "plants"
+  add_foreign_key "gardens", "users"
   add_foreign_key "reminders", "plants"
   add_foreign_key "reminders", "users"
 end

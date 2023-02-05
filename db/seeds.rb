@@ -8,9 +8,8 @@
 
 Plant.destroy_all
 User.destroy_all
-Care.destroy_all
-Message.destroy_all
 Reminder.destroy_all
+Garden.destroy_all
 
 puts "Seeding plants...🌱"
 
@@ -86,13 +85,6 @@ Plant.create(common_name: "Zebra Plant", scientific_name: "Haworthiopsis fasciat
 Plant.create(common_name: "ZZ Plant", scientific_name: "Zamioculcas zamiifolia", species: "araceae", light_level: "medium" , light_position: "indirect", size: "medium", environment: "humid", kid_friendly: false, pet_friendly: false, image: "https://ik.imagekit.io/dbmvg03cg/Sprout/zzplant.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675390879502")
 
 
-puts "Plantcare...❤️"
-
-Care.create(variety: "water")
-Care.create(variety: "prune")
-Care.create(variety: "rotate")
-Care.create(variety: "repot")
-
 puts "Plant people...👯‍♀️👯‍♂️"
 
 3.times do
@@ -106,10 +98,9 @@ puts "Scheduling reminders...📆"
     Reminder.find_or_create_by(user: User.all.sample, plant: Plant.all.sample, start: Time.now, end: Time.now + (30).minutes)
 end
 
-puts "Sending messages..."
-
-5.times do
-    Message.find_or_create_by(sms:"Hey #{User.all.sample}, don't forgot to #{Care.all.sample} #{Plant.all.sample} today!")
+15.times do
+    Garden.find_or_create_by(user: User.all.sample, plant: Plant.all.sample)
 end
+
 
 puts "Seeding complete! 🌿"
