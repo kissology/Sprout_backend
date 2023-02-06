@@ -1,2 +1,0 @@
-class CaresController < ApplicationController
-end

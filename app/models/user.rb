@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-    has_one :garden
-    has_many :plants, through: :garden
+
+    has_many :gardens
+    has_many :plants, through: :gardens
 
     # validates :first_name, length: {minimum: 2}, presence: true
     # validates :last_name, length: {minimum: 2}, presence: true

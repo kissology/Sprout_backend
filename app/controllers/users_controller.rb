@@ -1,17 +1,18 @@
 class UsersController < ApplicationController
 
 def index
-    render json: User.all, except [:created_at, :updated_at], status: :ok
+    render json: User.all, except: [:created_at, :updated_at], status: :ok
 end
 
 def show 
     user = User.find_by(id: [params[:id]])
     if user
-        render json: user, except: [created_at, updated_at]
-        include: [:plants => {except: [:created_at, updated_at]}], status: :ok
+        render json: user, except: [:created_at, :updated_at],
+        include: [:plants => {except: [:created_at, :updated_at]}], status: :ok
     else
         render json: {errors: ['User not found']}, status: 404
     end
+end
 end
 
 def create
@@ -41,12 +42,14 @@ def destroy
         user.destroy
         render json: {errors: ['']}, status: 204
     else
-        render json: {errors: ["Scientist not found"]}, status: 404
+        render json: {errors: ["User not found"]}, status: 404
     end
 end
 
 private
 
 def user_params
-    params.permit (:first_name, :last_name, :dob, :street_address, :zipcode, :username, :phone_number)
+    params.permit(:first_name, :last_name, :dob, :street_address, :zipcode, :username, :phone_number)
+end
+
 end

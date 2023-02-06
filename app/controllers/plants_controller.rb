@@ -12,4 +12,4 @@ class PlantsController < ApplicationController
             render json: {errors: ['Plant not found']}, status: 404
     end
 end
-
+end
