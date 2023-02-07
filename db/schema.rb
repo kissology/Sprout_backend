@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 2023_02_05_165321) do
   create_table "gardens", force: :cascade do |t|
     t.bigint "plant_id", null: false
     t.bigint "user_id", null: false
-    t.string "previous_water_date"
-    t.string "previous_rotate_date"
-    t.string "previous_soil_date"
+    t.date "previous_water_date"
+    t.date "previous_rotate_date"
+    t.date "previous_soil_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["plant_id"], name: "index_gardens_on_plant_id"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2023_02_05_165321) do
   end
 
   create_table "plants", force: :cascade do |t|
-    t.string "common_name"
+    t.string "name"
     t.string "scientific_name"
     t.string "family"
     t.string "light_level"

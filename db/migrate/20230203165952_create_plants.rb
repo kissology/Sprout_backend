@@ -1,7 +1,7 @@
 class CreatePlants < ActiveRecord::Migration[6.1]
   def change
     create_table :plants do |t|
-      t.string :common_name
+      t.string :name
       t.string :scientific_name
       t.string :family
       t.string :light_level
