@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_05_165321) do
+ActiveRecord::Schema.define(version: 2023_02_09_003958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 2023_02_05_165321) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "texts", force: :cascade do |t|
+    t.bigint "garden_id", null: false
+    t.string "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["garden_id"], name: "index_texts_on_garden_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -52,6 +60,7 @@ ActiveRecord::Schema.define(version: 2023_02_05_165321) do
     t.string "street_address"
     t.integer "zipcode"
     t.string "username"
+    t.string "email"
     t.string "phone_number"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
@@ -60,4 +69,5 @@ ActiveRecord::Schema.define(version: 2023_02_05_165321) do
 
   add_foreign_key "gardens", "plants"
   add_foreign_key "gardens", "users"
+  add_foreign_key "texts", "gardens"
 end

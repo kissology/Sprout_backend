@@ -1,5 +1,8 @@
 class GardensController < ApplicationController
 
+skip_before_action :authenticate_user, only: :index
+
+
     def index
         render json: Garden.all, include: [:plant => {except: [:created_at, :updated_at]}], status: :ok
     end
@@ -8,10 +11,9 @@ class GardensController < ApplicationController
     def show
         garden = Garden.find_by(id: [params[:id]])
         if garden
-            render json: garden, except: [:created_at, :updated_at],
-            include: [:plant => {except: [:created_at, :updated_at]}], status: :ok
+            render json: garden, status: :ok
         else
-            render json: {errors: ['Garden not found']}, status: 404
+            render json: {errors: garden.errors.full_messages}, status: 404
         end
     end
 
@@ -21,7 +23,7 @@ class GardensController < ApplicationController
             if new_plant.valid?
                 render json: new_plant, except: [:created_at, :updated_at], status: :ok
             else
-                render json: {errors: ['Validation errors']}, status: 422
+                render json: {errors: garden.error.full_messages}, status: 422
             end
         end
     end
@@ -33,11 +35,11 @@ class GardensController < ApplicationController
                 if garden.valid?
                     render json: garden, except: [:created_at, :updated_at], status: :accepted
                 else
-                    render json: {errors: ['Validation errors']}, status: 422
+                    render json: {errors: garden.errors.full_messages}, status: 422
                 end
             end
         else
-            render json: {errors: ['Plant not found']}, status: 404
+            render json: {errors: garden.errors.full_messages}, status: 404
         end
     end
 
@@ -45,9 +47,9 @@ class GardensController < ApplicationController
         garden = Garden.find_by(id: params[:id])
         if garden
             garden.destroy
-            render json: {errors: ['']}, status: 204
+            render json: {errors: garden.errors.full_messages}, status: 204
         else
-            render json: {errors: ["Plant not found"]}, status: 404
+            render json: {errors: garden.errors.full_messages}, status: 404
         end
     end
 

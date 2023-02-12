@@ -9,6 +9,8 @@
 Plant.destroy_all
 User.destroy_all
 Garden.destroy_all
+Text.destroy_all
+
 
 puts "Seeding plants...🌱"
 
@@ -80,8 +82,9 @@ puts "Plant people...👯‍♀️👯‍♂️"
 
 3.times do
 User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, dob: Faker::Date.birthday(min_age: 18, max_age: 65), 
-street_address: Faker::Address.full_address, zipcode: Faker::Address.zip, username: "#{Faker::Lorem.word}@gmail.com", phone_number: "818-383-9683")
+street_address: Faker::Address.full_address, zipcode: Faker::Address.zip, username: "#{Faker::Lorem.word}", email: "#{Faker::Lorem.word}@gmail.com", password: "1234", phone_number: "818-383-9683")
 end
+
 
 puts "Gardening...🌱"
 
@@ -92,5 +95,10 @@ past_7_days = Date.today - 7
     previous_rotate_date: past_7_days, previous_soil_date: past_7_days)
 end
 
+puts 'Sending texts...📨'
+
+3.times do
+    Text.find_or_create_by(garden_id: Garden.all.sample, message: "Hey #{User.all.sample}, don't forget to water #{Plant.all.sample} today!")
+end
 
 puts "Seeding complete! 🌿"

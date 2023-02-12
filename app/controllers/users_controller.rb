@@ -1,27 +1,30 @@
 class UsersController < ApplicationController
 
+    skip_before_action :authenticate_user, only: [:signup]
+
+    # def user_session
+    #     current_user = User.find(session[:user_id])
+    #     render json: current_user
+    # end
+  
 def index
-    render json: User.all, except: [:created_at, :updated_at], status: :ok
+    render json: User.all, status: :ok
 end
 
 def show 
-    user = User.find_by(id: [params[:id]])
+    user = User.find_by(id: params[:id])
     if user
-        render json: user, except: [:created_at, :updated_at],
-        include: [:plants => {except: [:created_at, :updated_at]}], status: :ok
-    else
-        render json: {errors: ['User not found']}, status: 404
+        render json: user, status: :ok
     end
 end
-end
 
-def create
+def signup
     user = User.new( user_params ) 
     if user.valid?
         user.save
-        render json: user, except: [:created_at, :updated_at], status: :created
+        render json: user, status: :created
     else
-        render json: {errors: ['validation errors']}, status: 422
+        render json: {errors: user.errors.full_messages}, status: 422
     end
 end
 
@@ -29,8 +32,11 @@ def update
     user = User.find_by(id: params[:id])
     if user
         user.update( user_params )
-    if user.valid?
-        render json: user, except: [:created_at, :updated_at], status: :accepted
+        if user.valid?
+            render json: user, except: [:created_at, :updated_at], status: :accepted
+        else
+            render json: {errors: user.errors.full_messages}, status: 422
+        end
     else
         render json: {errors: ['User not found']}, status: 404
     end
@@ -42,14 +48,14 @@ def destroy
         user.destroy
         render json: {errors: ['']}, status: 204
     else
-        render json: {errors: ["User not found"]}, status: 404
+        render json: {errors: user.errors.full_messages}, status: 404
     end
 end
 
 private
 
 def user_params
-    params.permit(:first_name, :last_name, :dob, :street_address, :zipcode, :username, :phone_number)
+    params.permit(:first_name, :last_name, :dob, :street_address, :zipcode, :username, :password, :email, :phone_number )
 end
 
 end
