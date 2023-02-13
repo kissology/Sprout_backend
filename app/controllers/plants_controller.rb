@@ -1,6 +1,6 @@
 class PlantsController < ApplicationController
     
-skip_before_action :authenticate_user, only: :index
+skip_before_action :authenticate_user, only: [:index, :show]
     
     def index
         render json: Plant.all, except: [:created_at, :updated_at], status: :ok
