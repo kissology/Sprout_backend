@@ -2,9 +2,8 @@ class Garden < ApplicationRecord
   
   has_many :texts
 
-  belongs_to :plant, dependent: :destroy
+  belongs_to :plant
   belongs_to :user
-  
 
 
   validates :plant_id, presence: true 

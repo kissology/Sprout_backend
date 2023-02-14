@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 include ActionController::Cookies
 
-before_action :authenticate_user
+before_action :authenticate_user 
 
 def current_user
     User.find_by_id(session[:user_id])
