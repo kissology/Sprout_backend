@@ -55,25 +55,25 @@ skip_before_action :authenticate_user, only: [:index, :show, :create, :destroy, 
     end
 
 
-#     def text
-#         garden = Garden.new(text_params)
+    def text
+        garden = Garden.new(text_params)
 
-#     if garden.save
-#         client = Twilio::REST::Client.new(
-#             ENV["ACd965682ccbcb897d6b10c32470ae6381"],
-#             ENV["6e3d069d64aa28e071cb3aa6c12cce42"],
-#         )
-#         client.messages.create(
-#             body: "#{self.user.first_name}, you just added #{self.plant.name} to your garden!",
-#             from: ENV["+18556439837"],
-#             to: self.user.phone_number
-#         )
+    if garden.save
+        client = Twilio::REST::Client.new(
+            ENV["ACd965682ccbcb897d6b10c32470ae6381"],
+            ENV["6e3d069d64aa28e071cb3aa6c12cce42"],
+        )
+        client.messages.create(
+            body: "#{self.user.first_name}, you just added #{self.plant.name} to your garden!",
+            from: ENV["+18556439837"],
+            to: self.user.phone_number
+        )
 
-#         redirect_to "/"
-#     else
-#         render json: {errors: garden.errors.full_messages}, status: 404
-#     end
-# end
+        redirect_to "/"
+    else
+        render json: {errors: garden.errors.full_messages}, status: 404
+    end
+end
 
     private 
 

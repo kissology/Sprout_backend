@@ -14,6 +14,7 @@ def show
 end
 
 def signup
+    byebug
     user = User.new( user_params ) 
     if user.valid?
         user.save
