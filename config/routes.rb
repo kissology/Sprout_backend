@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#signup'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  delete '/delete_gardens/:plant_id/:user_id', to: 'gardens#delete_garden'
+  patch '/update_plant_name/:user_id', to: 'users#update_plant_name'
 
-  post '/text', to: 'gardens#text'
+
+  post '/reminder', to: 'gardens#reminder'
   
 
 end

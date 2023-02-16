@@ -1,6 +1,6 @@
 class GardensController < ApplicationController
 
-skip_before_action :authenticate_user, only: [:index, :show, :create, :destroy, :update, :text]
+skip_before_action :authenticate_user, only: [:index, :show, :create, :delete_garden, :update, :text]
 
 
     def index
@@ -43,8 +43,9 @@ skip_before_action :authenticate_user, only: [:index, :show, :create, :destroy, 
         end
     end
 
-    def destroy
-        garden = Garden.find_by(id: params[:id])
+    def delete_garden
+        # byebug
+        garden = Garden.find_by(plant_id: params[:plant_id], user_id: params[:user_id])
         if garden
             garden.destroy
             head :no_content
@@ -55,10 +56,9 @@ skip_before_action :authenticate_user, only: [:index, :show, :create, :destroy, 
     end
 
 
-    def text
-        garden = Garden.new(text_params)
-
-    if garden.save
+def reminder
+    garden = Garden.find_by(id: params[:id])
+    if garden
         client = Twilio::REST::Client.new(
             ENV["ACd965682ccbcb897d6b10c32470ae6381"],
             ENV["6e3d069d64aa28e071cb3aa6c12cce42"],
@@ -68,8 +68,7 @@ skip_before_action :authenticate_user, only: [:index, :show, :create, :destroy, 
             from: ENV["+18556439837"],
             to: self.user.phone_number
         )
-
-        redirect_to "/"
+    redirect_to "/"
     else
         render json: {errors: garden.errors.full_messages}, status: 404
     end

@@ -14,11 +14,20 @@ def show
 end
 
 def signup
-    byebug
     user = User.new( user_params ) 
     if user.valid?
         user.save
         render json: user, status: :created
+    else
+        render json: {errors: user.errors.full_messages}, status: 422
+    end
+end
+
+def update_plant_name 
+    user_plant = User.find_by(plant_id: params[:plant_id])
+    if user_plant
+        user_plant.update(user_plant_params)
+        render json: user_plant, status: :accepted
     else
         render json: {errors: user.errors.full_messages}, status: 422
     end
@@ -50,6 +59,9 @@ end
 
 private
 
+def user_plant_params
+params.permit(:plants.name)
+end
 def user_params
     params.permit(:first_name, :last_name, :dob, :street_address, :zipcode, :username, :password, :email, :phone_number )
 end
