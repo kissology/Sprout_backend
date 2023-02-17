@@ -1,6 +1,7 @@
+
 class GardensController < ApplicationController
 
-skip_before_action :authenticate_user, only: [:index, :show, :create, :delete_garden, :update, :text]
+skip_before_action :authenticate_user, only: [:index, :show, :create, :delete_garden, :update, :text, :update_plant_name]
 
 
     def index
@@ -55,30 +56,24 @@ skip_before_action :authenticate_user, only: [:index, :show, :create, :delete_ga
         end
     end
 
-
-def reminder
-    garden = Garden.find_by(id: params[:id])
-    if garden
-        client = Twilio::REST::Client.new(
-            ENV["ACd965682ccbcb897d6b10c32470ae6381"],
-            ENV["6e3d069d64aa28e071cb3aa6c12cce42"],
-        )
-        client.messages.create(
-            body: "#{self.user.first_name}, you just added #{self.plant.name} to your garden!",
-            from: ENV["+18556439837"],
-            to: self.user.phone_number
-        )
-    redirect_to "/"
-    else
-        render json: {errors: garden.errors.full_messages}, status: 404
+    def update_plant_name 
+        plant = Garden.find_by(plant_id: params[:plant_id], user_id: params[:user_id])
+        if plant
+            plant.update(user_plant_params)
+            render json: plant, status: :accepted
+        else
+            render json: {errors: user.errors.full_messages}, status: 422
+        end
     end
-end
+
 
     private 
 
-    def text_params
-        params.permit(:user_id)
+
+    def user_plant_params
+    params.permit(plants: params[:name])
     end
+
     def garden_params
         params.permit(:user_id, :plant_id, :previous_water_date, :previous_rotate_date, :previous_soil_date)
     end

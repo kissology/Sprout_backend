@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-    skip_before_action :authenticate_user, only: [:signup, :index, :show, :update, :destroy]
+    skip_before_action :authenticate_user, only: [:signup, :index, :show, :update, :destroy ]
 
 def index
     render json: User.all, status: :ok
@@ -23,15 +23,7 @@ def signup
     end
 end
 
-def update_plant_name 
-    user_plant = User.find_by(plant_id: params[:plant_id])
-    if user_plant
-        user_plant.update(user_plant_params)
-        render json: user_plant, status: :accepted
-    else
-        render json: {errors: user.errors.full_messages}, status: 422
-    end
-end
+
 
 def update 
     user = User.find_by(id: params[:id])
@@ -59,9 +51,6 @@ end
 
 private
 
-def user_plant_params
-params.permit(:plants.name)
-end
 def user_params
     params.permit(:first_name, :last_name, :dob, :street_address, :zipcode, :username, :password, :email, :phone_number )
 end
