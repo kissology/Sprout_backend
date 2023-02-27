@@ -1,6 +1,6 @@
 class TextsController < ApplicationController
 
-    skip_before_action :authenticate_user, onky[:index, :create]
+    skip_before_action :authenticate_user, only[:index, :create]
 
     def index
         render json: Text.all, status: :ok
