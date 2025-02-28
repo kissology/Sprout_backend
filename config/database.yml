@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: Sprout_development
+  database: caitabase
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: Sprout_test
+  database: caitabase_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: Sprout_production
-  username: Sprout
+  database: caitabase_production
+  username: caitlinma
   password: <%= ENV["SPROUT_DATABASE_PASSWORD"] %>

@@ -14,4 +14,6 @@ Rails.application.routes.draw do
 
   post '/create', to: 'texts#create'
 
+  get "/me", to: "users#me"
+
 end

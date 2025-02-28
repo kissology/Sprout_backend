@@ -49,6 +49,15 @@ def destroy
     end
 end
 
+def me
+    user = current_user
+    if user
+        render json: user, status: :ok
+    else
+        render json: { errors: ["Not logged in"] }, status: :unauthorized
+    end
+end
+
 private
 
 def user_params
